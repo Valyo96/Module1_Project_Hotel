@@ -143,7 +143,7 @@ public class Hotel {
 
             System.out.print("Check in date(dd.mm.yyyy): ");
             checkIn = sc.nextLine();
-            String fake= sc.nextLine();
+
 
             while (!isCorrectDate(checkIn)) {
                 System.out.println("Incorrect date/input!Please enter correctly.");
@@ -323,10 +323,9 @@ public class Hotel {
                 correct = true;
             }
         }
-
+        String fake= sc.nextLine();
         System.out.print("Enter starting date(dd.mm.yyyy): ");
         String startDate = sc.nextLine();
-        String fake= sc.nextLine();
 
         while (!isCorrectDate(startDate)) {
             System.out.println("Incorrect date/input!Please enter correctly.");
@@ -370,6 +369,8 @@ public class Hotel {
                     }
                 }
                 if (!busy) {
+                    System.out.println("Available rooms for the period");
+                    System.out.println();
                     System.out.println(room);
                 }
                 startRoom++;
