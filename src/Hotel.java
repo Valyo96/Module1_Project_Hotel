@@ -89,24 +89,24 @@ public class Hotel {
         return sdf.parse(date, new ParsePosition(0)) != null;
     }
 
-    public static boolean correctInputForRoomNumber(String s) {
-        if (s.length() != 3 || s.contains(" ")) {
+    public static boolean correctInputForRoomNumber(String roomInput) {
+        if (roomInput.length() != 3 || roomInput.contains(" ")) {
             return false;
         }
-        if (s.charAt(0) < '1' || s.charAt(0) > '4') {
+        if (roomInput.charAt(0) < '1' || roomInput.charAt(0) > '4') {
             return false;
         }
-        if (s.charAt(1) < '0' || s.charAt(1) > '1') {
+        if (roomInput.charAt(1) < '0' || roomInput.charAt(1) > '1') {
             return false;
         }
 
-        int secondNumber = s.charAt(1) - '0';
+        int secondNumber = roomInput.charAt(1) - '0';
         if (secondNumber == 0) {
-            if (s.charAt(2) < '1' || s.charAt(2) > '9') {
+            if (roomInput.charAt(2) < '1' || roomInput.charAt(2) > '9') {
                 return false;
             }
         } else {
-            if (s.charAt(2) != '0') {
+            if (roomInput.charAt(2) != '0') {
                 return false;
             }
         }
@@ -162,7 +162,7 @@ public class Hotel {
 
         } while (!checkIfAvailableRooms(roomNumber, checkIn, checkOut));
 
-        System.out.print("Additional comments: ");
+        System.out.print("Please write down your name: ");
         String guestComment = sc.nextLine();
         String[] values = {checkIn, checkOut, guestComment, ""};
         List<String[]> list;
@@ -188,7 +188,6 @@ public class Hotel {
         for (int floor = 1; floor <= 4; floor++) {
             System.out.println("Floor " + floor);
             for (int room = 1; room <= 10; room++) {
-                boolean notFree = false;
                 roomNumber = room + floor * 100;
                 if (rooms.containsKey(roomNumber)) {
                     List<String[]> values = rooms.get(roomNumber);
@@ -196,14 +195,10 @@ public class Hotel {
                         Date resCheckIn = new SimpleDateFormat("dd.MM.yyyy").parse(element[0]);
                         Date resCheckOut = new SimpleDateFormat("dd.MM.yyyy").parse(element[1]);
                         if (currentDate.after(resCheckIn) && currentDate.before(resCheckOut)) {
-                            notFree = true;
-                            break;
                         }
                     }
-                    if (!notFree) {
-                        System.out.println("Room number: " + roomNumber);
-                    }
-                } else {
+                }
+                else {
                     System.out.println("Room number: " + roomNumber);
                 }
             }
@@ -224,18 +219,18 @@ public class Hotel {
             int size = current.size();
             int index = 0;
 
-            while (size != 0) {
-                if (today.equals(current.get(0)[1])) {
-                    current.remove(index);
+                while (size != 0) {
+                    if (today.equals(current.get(0)[1])) {
+                        current.remove(index);
+                    }
+                        index++;
+                        size--;
+                    if (rooms.get(key).isEmpty()) {
+                        itr.remove();
+                    }
                 }
-                index++;
-                size--;
-                if (rooms.get(key).isEmpty()) {
-                    itr.remove();
-                }
-            }
-        }
-    }
+             }
+         }
 
     public static void printRoomsForPeriod() throws ParseException {
         Scanner sc=new Scanner(System.in);
@@ -300,29 +295,32 @@ public class Hotel {
     }
 
     public static void findSuitableRoom() throws ParseException {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
         int numberBeds;
-        int startRoom = 0;
-        int endRoom = 0;
-        boolean correct = false;
+        int startRoom=0;
+        int endRoom=0;
+        boolean correct=false;
 
-        while (!correct) {
+        while(!correct){
             System.out.print("Enter number of beds (2, 3 or 4): ");
-            numberBeds = sc.nextInt();
-            if (numberBeds == 2) {
-                startRoom = 1;
-                endRoom = 5;
-                correct = true;
-            } else if (numberBeds == 3) {
-                startRoom = 6;
-                endRoom = 9;
-                correct = true;
-            } else if (numberBeds == 4) {
-                startRoom = 10;
-                endRoom = 10;
-                correct = true;
+            numberBeds= sc.nextInt();
+            if(numberBeds==2){
+                startRoom=1;
+                endRoom=5;
+                correct=true;
+            }
+            else if (numberBeds==3) {
+                startRoom=6;
+                endRoom=9;
+                correct=true;
+            }
+            else if (numberBeds==4) {
+                startRoom=10;
+                endRoom=10;
+                correct=true;
             }
         }
+
         String fake= sc.nextLine();
         System.out.print("Enter starting date(dd.mm.yyyy): ");
         String startDate = sc.nextLine();
@@ -354,7 +352,7 @@ public class Hotel {
                 if (rooms.containsKey(room)) {
                     current = rooms.get(room);
                 } else {
-                    System.out.println(room);
+                    System.out.println("Room number: "+room);
                     startRoom++;
                     continue;
                 }
@@ -371,7 +369,7 @@ public class Hotel {
                 if (!busy) {
                     System.out.println("Available rooms for the period");
                     System.out.println();
-                    System.out.println(room);
+                    System.out.println("Room number: "+room);
                 }
                 startRoom++;
             }
